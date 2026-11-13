@@ -118,20 +118,40 @@
           <div class="all-comments-info">
             <a href="#">Comments</a>
             <div class="agile-info-wthree-box">
-              <form>
-                <input type="text" placeholder="Name" required="">			           					   
-                <input type="text" placeholder="Email" required="">
-                <input type="text" placeholder="Phone" required="">
-                <textarea placeholder="Message" required=""></textarea>
-                <input type="submit" value="SEND">
-                <div class="clearfix"> </div>
-              </form>
+              {{-- TUGAS: form komentar hanya untuk user biasa yang sudah login --}}
+              @if (session('success'))
+                <p style="color: green;">{{ session('success') }}</p>
+              @endif
+
+              @auth
+                @if (Auth::user()->role?->name === 'user')
+                  <form action="{{ route('kritik.store', $film->id) }}" method="post">
+                    @csrf
+                    <select name="rating" required>
+                      <option value="">Pilih rating</option>
+                      @for ($i = 1; $i <= 5; $i++)
+                        <option value="{{ $i }}" {{ old('rating') == $i ? 'selected' : '' }}>{{ $i }} / 5</option>
+                      @endfor
+                    </select>
+                    <textarea name="comment" placeholder="Tulis komentar atau kritik kamu" required>{{ old('comment') }}</textarea>
+                    @if ($errors->any())
+                      <p style="color: red;">{{ $errors->first() }}</p>
+                    @endif
+                    <input type="submit" value="SEND">
+                    <div class="clearfix"> </div>
+                  </form>
+                @else
+                  <p>Admin tidak dapat memberi komentar.</p>
+                @endif
+              @else
+                <p>Silakan <a href="#" data-toggle="modal" data-target="#myModal">login</a> untuk memberi komentar.</p>
+              @endauth
             </div>
           </div>
           <div class="media-grids">
             @foreach ($comments as $comment)
               <div class="media">
-                <h5>{{ $comment->user_id }}</h5>
+                <h5>{{ $comment->user->name ?? 'User' }}</h5>
                 <div class="media-left">
                   <a href="#">
                     <img src="{{ asset('storage/images/user.jpg') }}" title="One movies" alt=" " />
@@ -139,6 +159,7 @@
                 </div>
                 <div class="media-body">
                   <p>{{ $comment->comment }}</p>
+                  <p>Rating: {{ $comment->rating }} / 5</p>
                 </div>
               </div>
             @endforeach

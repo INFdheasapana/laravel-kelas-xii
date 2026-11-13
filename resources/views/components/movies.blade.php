@@ -38,7 +38,12 @@
                 </a>
                 <div class="mid-1">
                   <div class="w3l-movie-text">
-                    <h6><a href="{{ route('movies.show', $films[$data]->id) }}">{{ $films[$data]->title }}</a></h6>							
+                    <h6><a href="{{ route('movies.show', $films[$data]->id) }}">{{ $films[$data]->title }}</a></h6>
+
+                    {{-- FITUR BARU: tombol suka film --}}
+                    <button type="button" class="btn-like" data-id="{{ $films[$data]->id }}" aria-label="Suka film">
+                      <i class="fa fa-heart-o" aria-hidden="true"></i>
+                    </button>
                   </div>
                   <div class="mid-2">
                     <p>{{ $films[$data]->year }}</p>
@@ -113,4 +118,50 @@
   </div>
 <!-- //w3l-medile-movies-grids -->
 </div>
+
+{{-- FITUR BARU: gaya dan skrip tombol suka film --}}
+<style>
+  .btn-like {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #f58a1f;
+    padding: 0;
+    margin-top: 4px;
+  }
+  .btn-like.liked i {
+    color: #e91e63;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var liked = JSON.parse(localStorage.getItem('likedFilms') || '[]');
+
+    document.querySelectorAll('.btn-like').forEach(function (btn) {
+      var id = btn.dataset.id;
+      var icon = btn.querySelector('i');
+
+      function tampil() {
+        var suka = liked.indexOf(id) !== -1;
+        btn.classList.toggle('liked', suka);
+        icon.className = suka ? 'fa fa-heart' : 'fa fa-heart-o';
+      }
+
+      tampil();
+
+      btn.addEventListener('click', function () {
+        var i = liked.indexOf(id);
+        if (i === -1) {
+          liked.push(id);
+        } else {
+          liked.splice(i, 1);
+        }
+        localStorage.setItem('likedFilms', JSON.stringify(liked));
+        tampil();
+      });
+    });
+  });
+</script>
 @endsection

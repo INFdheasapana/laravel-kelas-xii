@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Film;
 use App\Models\Kritik;
 use App\Http\Requests\StoreKritikRequest;
 use App\Http\Requests\UpdateKritikRequest;
+use Illuminate\Http\Request;
 
 class KritikController extends Controller
 {
@@ -27,9 +29,22 @@ class KritikController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreKritikRequest $request)
+    // TUGAS: simpan komentar dari user yang sedang login
+    public function store(Request $request, Film $film)
     {
-        //
+        $data = $request->validate([
+            'comment' => ['required', 'string', 'max:500'],
+            'rating' => ['required', 'integer', 'between:1,5'],
+        ]);
+
+        Kritik::create([
+            'comment' => $data['comment'],
+            'rating' => $data['rating'],
+            'film_id' => $film->id,
+            'user_id' => $request->user()->id,
+        ]);
+
+        return back()->with('success', 'Komentar berhasil dikirim.');
     }
 
     /**

@@ -14,9 +14,14 @@
               </div>
               <div class="form">
               <h3>Login to your account</h3>
-              <form action="#" method="post">
-                <input type="text" name="Username" placeholder="Username" required="">
-                <input type="password" name="Password" placeholder="Password" required="">
+              {{-- TUGAS: form login disambungkan ke route login.process (pakai email) --}}
+              <form action="{{ route('login.process') }}" method="post">
+                @csrf
+                <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required>
+                <input type="password" name="password" placeholder="Password" required>
+                @error('email')
+                  <p style="color: red;">{{ $message }}</p>
+                @enderror
                 <input type="submit" value="Login">
               </form>
               </div>

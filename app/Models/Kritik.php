@@ -17,4 +17,10 @@ class Kritik extends Model
         'film_id',
         'user_id',
     ];
+
+    // TUGAS: relasi ke user (untuk menampilkan nama pengomentar)
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

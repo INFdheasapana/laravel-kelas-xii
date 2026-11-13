@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Profile extends Model
 {
     use HasFactory;
+
+    // TUGAS: kolom yang boleh diisi lewat form profil
+    protected $fillable = [
+        'umur',
+        'bio',
+        'alamat',
+    ];
 }

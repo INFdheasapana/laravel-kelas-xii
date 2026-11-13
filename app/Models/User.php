@@ -20,6 +20,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',    // TUGAS
+        'profile_id', // TUGAS
     ];
 
     /**
@@ -43,5 +45,26 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // TUGAS: relasi dan pengecekan role
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function profile()
+    {
+        return $this->belongsTo(Profile::class);
+    }
+
+    public function kritiks()
+    {
+        return $this->hasMany(Kritik::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role?->name === 'admin';
     }
 }
