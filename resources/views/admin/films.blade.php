@@ -154,6 +154,20 @@
             </button>
         </form>
     </details>
+
+<form action="{{ route('admin.films.destroy', $film->id) }}"
+      method="POST"
+      onsubmit="return confirm('Yakin ingin menghapus film ini?')"
+      style="display: inline;">
+
+    @csrf
+    @method('DELETE')
+
+    <button type="submit" class="btn btn-danger btn-sm">
+        Hapus
+    </button>
+</form>
+
 </td>
 
                 </tr>

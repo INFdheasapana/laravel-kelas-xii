@@ -35,6 +35,8 @@ Route::middleware('cekrole:admin')->group(function () {
         ->name('admin.films.store');
     Route::put('/admin/films/{film}', [AdminFilmController::class, 'update'])
         ->name('admin.films.update');
+    Route::delete('/admin/films/{film}', [AdminFilmController::class, 'destroy'])
+    ->name('admin.films.destroy');
 
 });
 

@@ -57,4 +57,18 @@ class AdminFilmController extends Controller
         return redirect()->route('admin.films')
             ->with('success', 'Film berhasil diperbarui.');
     }
+
+    // Menghapus data film
+    public function destroy(Film $film)
+    {
+        // Hapus poster film
+        $poster = str_replace('storage/', '', $film->poster);
+        Storage::disk('public')->delete($poster);
+
+        // Hapus data film
+        $film->delete();
+
+        return redirect()->route('admin.films')
+            ->with('success', 'Film berhasil dihapus.');
+    }
 }
