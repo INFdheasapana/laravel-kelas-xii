@@ -125,21 +125,37 @@
 
               @auth
                 @if (Auth::user()->role?->name === 'user')
-                  <form action="{{ route('kritik.store', $film->id) }}" method="post">
-                    @csrf
-                    <select name="rating" required>
-                      <option value="">Pilih rating</option>
-                      @for ($i = 1; $i <= 5; $i++)
-                        <option value="{{ $i }}" {{ old('rating') == $i ? 'selected' : '' }}>{{ $i }} / 5</option>
-                      @endfor
-                    </select>
-                    <textarea name="comment" placeholder="Tulis komentar atau kritik kamu" required>{{ old('comment') }}</textarea>
-                    @if ($errors->any())
-                      <p style="color: red;">{{ $errors->first() }}</p>
-                    @endif
-                    <input type="submit" value="SEND">
-                    <div class="clearfix"> </div>
-                  </form>
+                  
+<form action="{{ route('kritik.store', $film->id) }}" method="post"
+    style="display: flex; flex-direction: column; align-items: flex-start;">
+    @csrf
+
+    {{-- Kolom komentar --}}
+    <textarea
+        name="comment"
+        placeholder="Tulis komentar atau kritik kamu"
+        required
+        rows="4"
+        style="width: 80%; max-width: 570px; box-sizing: border-box; margin: 12px 0 16px; float: none;"
+    >{{ old('comment') }}</textarea>
+
+    {{-- Pilihan rating --}}
+    <select name="rating" required style="margin-bottom: 12px;">
+        <option value="">Pilih rating</option>
+        @for ($i = 1; $i <= 5; $i++)
+            <option value="{{ $i }}" {{ old('rating') == $i ? 'selected' : '' }}>
+                {{ $i }} / 5
+            </option>
+        @endfor
+    </select>
+
+    @if ($errors->any())
+        <p style="color: red;">{{ $errors->first() }}</p>
+    @endif
+
+    <input type="submit" value="SEND">
+</form>
+
                 @else
                   <p>Admin tidak dapat memberi komentar.</p>
                 @endif
