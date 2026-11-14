@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Cast extends Model
 {
     use HasFactory;
+
     protected $table = 'casts';
-    protected $fillable = ['name','age', 'bio'];
+
+    protected $fillable = ['name', 'age', 'bio'];
 }

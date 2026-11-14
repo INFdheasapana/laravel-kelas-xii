@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -8,6 +7,7 @@ use App\Http\Controllers\{
     AdminUserController,
     AdminGenreController,
     AdminFilmController,
+    AdminPeranController,
     AdminCastController,
     KritikController,
     ProfileController,
@@ -47,6 +47,15 @@ Route::middleware('cekrole:admin')->group(function () {
         ->name('admin.casts.update');
     Route::delete('/admin/casts/{cast}', [AdminCastController::class, 'destroy'])
         ->name('admin.casts.destroy');
+        // Admin Peran
+    Route::get('/admin/perans', [AdminPeranController::class, 'index'])
+        ->name('admin.perans');
+    Route::post('/admin/perans', [AdminPeranController::class, 'store'])
+        ->name('admin.perans.store');
+    Route::put('/admin/perans/{peran}', [AdminPeranController::class, 'update'])
+        ->name('admin.perans.update');
+    Route::delete('/admin/perans/{peran}', [AdminPeranController::class, 'destroy'])
+        ->name('admin.perans.destroy');
 
     // Admin Film
     Route::get('/admin/films', [AdminFilmController::class, 'index'])
