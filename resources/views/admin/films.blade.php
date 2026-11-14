@@ -75,6 +75,7 @@
                 <th>Genre</th>
                 <th>Tahun</th>
                 <th>Sinopsis</th>
+                <th>Aksi</th>
             </tr>
         </thead>
 
@@ -96,6 +97,65 @@
                     <td>{{ $film->year }}</td>
 
                     <td>{{ $film->sinopsis }}</td>
+
+<td>
+    <details>
+        <summary class="btn btn-primary btn-sm">Edit</summary>
+
+        <form action="{{ route('admin.films.update', $film->id) }}"
+              method="POST"
+              enctype="multipart/form-data"
+              style="margin-top: 10px; min-width: 200px;">
+
+            @csrf
+            @method('PUT')
+
+            <div class="form-group">
+                <label>Judul Film</label>
+                <input type="text" name="title"
+                       class="form-control"
+                       value="{{ $film->title }}" required>
+            </div>
+
+            <div class="form-group">
+                <label>Sinopsis</label>
+                <textarea name="sinopsis" class="form-control"
+                          rows="3" required>{{ $film->sinopsis }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Tahun</label>
+                <input type="number" name="year"
+                       class="form-control"
+                       value="{{ $film->year }}" required>
+            </div>
+
+            <div class="form-group">
+                <label>Genre</label>
+                <select name="genre_id" class="form-control" required>
+                    @foreach ($genres as $genre)
+                        <option value="{{ $genre->id }}"
+                            {{ $film->genre_id == $genre->id ? 'selected' : '' }}>
+                            {{ $genre->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Ganti Poster (Opsional)</label>
+                <input type="file" name="poster"
+                       class="form-control"
+                       accept="image/jpeg,image/png,image/webp">
+            </div>
+
+            <button type="submit" class="btn btn-success btn-sm">
+                Simpan Perubahan
+            </button>
+        </form>
+    </details>
+</td>
+
                 </tr>
             @endforeach
         </tbody>

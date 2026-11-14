@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+
 class UpdateFilmRequest extends FormRequest
 {
     public function authorize(): bool
@@ -16,7 +17,7 @@ class UpdateFilmRequest extends FormRequest
             'title' => 'required|string',
             'sinopsis' => 'required|string',
             'year' => 'required|integer',
-            'poster' => 'required|string',
+            'poster' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'genre_id' => 'required|exists:genres,id',
         ];
     }

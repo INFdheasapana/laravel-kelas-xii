@@ -27,10 +27,15 @@ Route::middleware('cekrole:admin')->group(function () {
     Route::post('/admin/genres', [AdminGenreController::class, 'store'])->name('admin.genres.store');
     Route::put('/admin/genres/{genre}', [AdminGenreController::class, 'update'])->name('admin.genres.update');
     Route::delete('/admin/genres/{genre}', [AdminGenreController::class, 'destroy'])->name('admin.genres.destroy');
-    Route::get('/admin/films', [AdminFilmController::class, 'index'])->name('admin.films');
-    Route::get('/admin/films', [AdminFilmController::class, 'index'])->name('admin.films');
+    
+    // Admin Film
+    Route::get('/admin/films', [AdminFilmController::class, 'index'])
+        ->name('admin.films');
     Route::post('/admin/films', [AdminFilmController::class, 'store'])
-    ->name('admin.films.store');
+        ->name('admin.films.store');
+    Route::put('/admin/films/{film}', [AdminFilmController::class, 'update'])
+        ->name('admin.films.update');
+
 });
 
 Route::post('/movies/{film}/kritik', [KritikController::class, 'store'])
